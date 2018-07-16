@@ -10,12 +10,12 @@ import com.wustrive.aesrsa.util.RSA;
 import com.wustrive.aesrsa.util.RandomUtil;
 
 /**
- * AES+RSA签名，加密 验签，解密
-* @ClassName: Main 
-* @Description: TODO(这里用一句话描述这个类的作用) 
-* @author wustrive
-* @date 2015年8月23日 上午1:14:27 
-*
+ *
+ * Description: AES+RSA签名，加密 验签，解密
+ *
+ * @author: wubaoguo
+ * @email: wustrive2008@gmail.com
+ * @date: 2015/8/13 15:12
  */
 public class Main 
 {

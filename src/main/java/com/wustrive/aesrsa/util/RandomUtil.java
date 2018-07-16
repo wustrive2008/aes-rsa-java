@@ -28,4 +28,8 @@ public class RandomUtil {
 		return ret.toString();
 	}
 	
+	public static void main(String[] args) {
+        System.out.println(getRandom(5));
+    }
+	
 }

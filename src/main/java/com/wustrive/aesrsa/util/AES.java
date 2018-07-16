@@ -9,14 +9,21 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
-
+/**
+ *
+ * Description:
+ *
+ * @author: wubaoguo
+ * @email: wustrive2008@gmail.com
+ * @date: 2018/7/16 15:12
+ */
 public class AES {
 	/**
 	 * 加密
 	 * 
-	 * @param content
+	 * @param data
 	 *            需要加密的内容
-	 * @param password
+	 * @param key
 	 *            加密密码
 	 * @return
 	 */
@@ -42,9 +49,9 @@ public class AES {
 	/**
 	 * 解密
 	 * 
-	 * @param content
+	 * @param data
 	 *            待解密内容
-	 * @param password
+	 * @param key
 	 *            解密密钥
 	 * @return
 	 */

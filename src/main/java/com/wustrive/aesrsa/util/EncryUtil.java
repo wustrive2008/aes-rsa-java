@@ -32,26 +32,26 @@ public class EncryUtil {
 	}
 
 	/**
-	 * 对易宝支付返回的结果进行验签
+	 * 返回的结果进行验签
 	 * 
 	 * @param data
-	 *            易宝支付返回的业务数据密文
+	 *            业务数据密文
 	 * @param encrypt_key
-	 *            易宝支付返回的对ybAesKey加密后的密文
-	 * @param yibaoPublickKey
-	 *            易宝支付提供的公钥
-	 * @param merchantPrivateKey
-	 *            商户自己的私钥
+	 *            对ybAesKey加密后的密文
+	 * @param clientPublicKey
+	 *            客户端公钥
+	 * @param serverPrivateKey
+	 *            服务器私钥
 	 * @return 验签是否通过
 	 * @throws Exception
 	 */
 	public static boolean checkDecryptAndSign(String data, String encrypt_key,
-			String yibaoPublickKey, String merchantPrivateKey) throws Exception {
+			String clientPublicKey, String serverPrivateKey) throws Exception {
 
-		/** 1.使用YBprivatekey解开aesEncrypt。 */
+		/** 1.使用serverPrivateKey解开aesEncrypt。 */
 		String AESKey = "";
 		try {
-			AESKey = RSA.decrypt(encrypt_key, merchantPrivateKey);
+			AESKey = RSA.decrypt(encrypt_key, serverPrivateKey);
 		} catch (Exception e) {
 			e.printStackTrace();
 			/** AES密钥解密失败 */
@@ -84,7 +84,7 @@ public class EncryUtil {
 		
 		/** 5. result为true时表明验签通过 */
 		boolean result = RSA.checkSign(signData.toString(), sign,
-				yibaoPublickKey);
+				clientPublicKey);
 
 		return result;
 	}
