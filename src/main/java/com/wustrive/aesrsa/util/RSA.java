@@ -150,7 +150,7 @@ public class RSA {
 			KeyFactory keyf = KeyFactory.getInstance("RSA");
 			PrivateKey priKey = keyf.generatePrivate(priPKCS8);
 
-			Signature signature = Signature.getInstance("SHA1WithRSA");
+			Signature signature = Signature.getInstance("SHA256WithRSA");
 
 			signature.initSign(priKey);
 			signature.update(content.getBytes(charset));
@@ -175,7 +175,7 @@ public class RSA {
 
 		
 			java.security.Signature signature = java.security.Signature
-			.getInstance("SHA1WithRSA");
+			.getInstance("SHA256WithRSA");
 		
 			signature.initVerify(pubKey);
 			signature.update( content.getBytes("utf-8") );
