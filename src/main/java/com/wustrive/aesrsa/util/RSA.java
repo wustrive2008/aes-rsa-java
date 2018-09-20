@@ -45,7 +45,7 @@ import org.apache.log4j.Logger;
 public class RSA {
 	private static final Logger log = Logger.getLogger(RSA.class);
 	/** 指定key的大小 */
-	private static int KEYSIZE = 1024;
+	private static int KEYSIZE = 2048;
 	/**
 	 * 生成密钥对
 	 */
