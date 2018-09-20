@@ -1,10 +1,11 @@
 package com.wustrive.aesrsa.util;
 
-import java.util.Random;
 
-public class RandomUtil {
+import java.security.SecureRandom;
+
+public class SecureRandomUtil {
 	
-	public static Random random = new Random();
+	public static SecureRandom random = new SecureRandom();
 
 	public static String getRandom(int length) {
 		StringBuilder ret = new StringBuilder();

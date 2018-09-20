@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wustrive.aesrsa.util.AES;
 import com.wustrive.aesrsa.util.EncryUtil;
 import com.wustrive.aesrsa.util.RSA;
-import com.wustrive.aesrsa.util.RandomUtil;
+import com.wustrive.aesrsa.util.SecureRandomUtil;
 
 /**
  *
@@ -75,7 +75,7 @@ public class Main
 		
 		String info = JSON.toJSONString(params);
 		//随机生成AES密钥
-		String aesKey = RandomUtil.getRandom(16);
+		String aesKey = SecureRandomUtil.getRandom(16);
 		//AES加密数据
 		String data = AES.encryptToBase64(info, aesKey);
 		
