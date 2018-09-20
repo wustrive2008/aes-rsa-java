@@ -60,11 +60,10 @@ public class EncryUtil {
 		}
 
 		/** 2.用aeskey解开data。取得data明文 */
-		String realData = AES.decryptFromBase64(data, AESKey);
+		String realData = ConvertUtils.hexStringToString(AES.decryptFromBase64(data, AESKey));
 		
 		TreeMap<String, String> map = JSON.parseObject(realData,
-				new TypeReference<TreeMap<String, String>>() {
-				});
+				new TypeReference<TreeMap<String, String>>() {});
 
 		/** 3.取得data明文sign。 */
 		String sign = StringUtils.trimToEmpty(map.get("sign"));
