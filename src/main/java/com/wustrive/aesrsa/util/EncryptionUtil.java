@@ -2,74 +2,78 @@ package com.wustrive.aesrsa.util;
 
 import java.security.MessageDigest;
 
+/**
+ * Description: 加密工具类
+ *
+ * @author: wubaoguo
+ * @email: wustrive2008@gmail.com
+ * @date: 2018/9/20 14:28
+ * @Copyright: 2017-2018 dgztc Inc. All rights reserved.
+ */
 public class EncryptionUtil {
-	
-	// 对字符串进行md5加密
-	public static String md5(String str) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(str.getBytes());
 
-			byte[] b = md.digest();
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < b.length; i++) {
-				int v = (int) b[i];
-				v = v < 0 ? 0x100 + v : v;
-				String cc = Integer.toHexString(v);
-				if (cc.length() == 1)
-					sb.append('0');
-				sb.append(cc);
-			}
+    /**
+     * 对字符串进行md5加密
+     *
+     * @param str
+     * @return
+     */
+    public static String md5(String str) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(str.getBytes());
+            return byteToHex(md.digest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
-			return sb.toString();
-		} catch (Exception e) {
-		}
-		return "";
-	}
-	
-	// 对字符串进行sha256加密
-	public static String sha256(String str) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			md.update(str.getBytes());
+    /**
+     * 对字符串进行sha256加密
+     *
+     * @param str
+     * @return
+     */
+    public static String sha256(String str) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(str.getBytes());
+            return byteToHex(md.digest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
-			byte[] b = md.digest();
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < b.length; i++) {
-				int v = (int) b[i];
-				v = v < 0 ? 0x100 + v : v;
-				String cc = Integer.toHexString(v);
-				if (cc.length() == 1)
-					sb.append('0');
-				sb.append(cc);
-			}
+    /**
+     * 对字符串进行sha1加密
+     *
+     * @param str
+     * @return
+     */
+    public static String sha1(String str) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(str.getBytes());
+            return byteToHex(md.digest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
-			return sb.toString();
-		} catch (Exception e) {
-		}
-		return "";
-	}
-	// 对字符串进行sha1加密
-	public static String sha1(String str) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-1");
-			md.update(str.getBytes());
-
-			byte[] b = md.digest();
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < b.length; i++) {
-				int v = (int) b[i];
-				v = v < 0 ? 0x100 + v : v;
-				String cc = Integer.toHexString(v);
-				if (cc.length() == 1)
-					sb.append('0');
-				sb.append(cc);
-			}
-
-			return sb.toString();
-		} catch (Exception e) {
-		}
-		return "";
-	}
-	
+    /**
+     * 字节数组转16进制字符串
+     *
+     * @param data
+     * @return
+     */
+    public static String byteToHex(byte[] data) {
+        final StringBuilder builder = new StringBuilder();
+        for(byte b : data) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
 }
