@@ -2,7 +2,10 @@ package com.wustrive.aesrsa.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import okhttp3.*;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AESRASUtils{
+public class AESRSAUtils {
 //    private static String serverPublicKey=null;
     private static String clientPublicKey=null;
     private static String clientPrivateKey=null;
@@ -20,19 +23,25 @@ public class AESRASUtils{
     static{
         Properties properties = new Properties();
         try {
-            properties.load(AESRASUtils.class.getClassLoader().getResourceAsStream("RASKeys.properties"));
+            properties.load(AESRSAUtils.class.getClassLoader().getResourceAsStream("RSAKeys.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         serverPublicKeys=new HashMap<String,String>();
-        String[] serverHosts=properties.getProperty("serverHosts").split(" ");
-        for(int hostIndex=0;hostIndex<serverHosts.length;hostIndex++){
-            serverPublicKeys.put(serverHosts[hostIndex],properties.getProperty("serverPublicKey."+ (hostIndex+1)));
+        if(properties.getProperty("serverHosts")!=null && !properties.getProperty("serverHosts").isEmpty()){
+            String[] serverHosts=properties.getProperty("serverHosts").split(" ");
+            for(int hostIndex=0;hostIndex<serverHosts.length;hostIndex++){
+                serverPublicKeys.put(serverHosts[hostIndex],properties.getProperty("serverPublicKey."+ (hostIndex+1)));
+            }
         }
+//        String[] serverHosts=properties.getProperty("serverHosts").split(" ");
+//        for(int hostIndex=0;hostIndex<serverHosts.length;hostIndex++){
+//            serverPublicKeys.put(serverHosts[hostIndex],properties.getProperty("serverPublicKey."+ (hostIndex+1)));
+//        }
 //        serverPublicKeys.put("csfz.cn",properties.getProperty("serverPublicKey"));
 //        serverPublicKey=properties.getProperty("serverPublicKey");
-        clientPrivateKey=properties.getProperty("clientPrivateKey");
-        clientPublicKey=properties.getProperty("clientPublicKey");
+        clientPrivateKey=properties.getProperty("privateKey");
+        clientPublicKey=properties.getProperty("publicKey");
         if(clientPublicKey==null || clientPrivateKey==null){
             try {
                 Map<String, String> map= RSA.generateKeyPair();
@@ -76,24 +85,26 @@ public class AESRASUtils{
             String tmpInfo=ConvertUtils.hexStringToString(AES.decryptFromBase64(ciphertext,tmpAESKey));
             JSONObject tmpJSONObject= JSON.parseObject(tmpInfo);
             serverPublicKey = tmpJSONObject.getString("publicKey");
-        }else {
-            boolean passSign = EncryUtil.checkDecryptAndSign(ciphertext,encryptkey,serverPublicKey,clientPrivateKey);
-            if(passSign){
-                String aesKey = RSA.decrypt(encryptkey,clientPrivateKey);
-                String data = ConvertUtils.hexStringToString(AES.decryptFromBase64(ciphertext,aesKey));
-
-                JSONObject jsonObject = JSONObject.parseObject(data);
-                String json = jsonObject.getString("data");
-                return  GsonUtils.getObjectByJson(json,clz);
-            }else {
-                serverPublicKeys.put(host,null);
-            }
         }
+        boolean passSign = EncryUtil.checkDecryptAndSign(ciphertext,encryptkey,serverPublicKey,clientPrivateKey);
+        if(passSign){
+            String aesKey = RSA.decrypt(encryptkey,clientPrivateKey);
+            String data = ConvertUtils.hexStringToString(AES.decryptFromBase64(ciphertext,aesKey));
+
+            JSONObject jsonObject = JSONObject.parseObject(data);
+            String json = jsonObject.getString("data");
+            storeProperties();
+            return  GsonUtils.getObjectByJson(json,clz);
+        }else {
+            serverPublicKeys.put(host,null);
+        }
+
+
 
         return null;
     }
 
-    private void storeProperties(){
+    private static void storeProperties(){
         Properties properties = new Properties();
         properties.setProperty("privateKey",clientPrivateKey);
         properties.setProperty("publicKey",clientPublicKey);
@@ -101,7 +112,7 @@ public class AESRASUtils{
         int hostIndex=0;
         for(Map.Entry<String,String> entry:serverPublicKeys.entrySet()){
             if(entry.getValue() != null){
-                serverHosts += entry.getValue();
+                serverHosts += entry.getKey()+" ";
                 properties.setProperty("serverPublicKey."+(++hostIndex),entry.getValue());
             }
         }
@@ -109,7 +120,7 @@ public class AESRASUtils{
 
         FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = new FileOutputStream(AESRASUtils.class.getClassLoader().getResource("RASKeys.properties").getPath());
+            fileOutputStream = new FileOutputStream(AESRSAUtils.class.getClassLoader().getResource("RSAKeys.properties").getPath());
             properties.store(fileOutputStream,new Date().toString());
             fileOutputStream.close();
         } catch (FileNotFoundException e) {

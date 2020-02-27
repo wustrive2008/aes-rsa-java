@@ -1,11 +1,11 @@
 package com.wustrive.aesrsa.util;
 
+import org.apache.log4j.Logger;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
-import org.apache.log4j.Logger;
 
 public class Digest {
 	private static final Logger log = Logger.getLogger(Digest.class);

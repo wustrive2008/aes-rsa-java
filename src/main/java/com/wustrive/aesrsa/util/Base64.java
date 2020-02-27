@@ -464,7 +464,7 @@ public class Base64  {
          String result = tempStr.substring(40, tempStr.length());
          return new String(decode(result.getBytes("UTF-8")));
        }
-       catch(java.lang.ArrayIndexOutOfBoundsException ex)
+       catch(ArrayIndexOutOfBoundsException ex)
        {
          return "";
        }

@@ -322,7 +322,7 @@ public abstract class ConvertUtils {
 		else{
 	        Object objs[]=new String[]{value};
 			return Class.forName(type).getConstructor(new Class[] {
-				    java.lang.String.class
+				    String.class
 				}).newInstance(objs);
 		}
     }
