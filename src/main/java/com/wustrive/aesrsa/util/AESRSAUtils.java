@@ -93,7 +93,7 @@ public class AESRSAUtils {
 
             JSONObject jsonObject = JSONObject.parseObject(data);
             String json = jsonObject.getString("data");
-            storeProperties();
+//            storeProperties();
             return  GsonUtils.getObjectByJson(json,clz);
         }else {
             serverPublicKeys.put(host,null);
