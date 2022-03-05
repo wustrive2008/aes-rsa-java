@@ -24,6 +24,6 @@
 
 ## 文章详解
 
-[开放接口的安全验证方案(AES+RSA)](http://wubaoguo.com/2015/08/21/%E5%BC%80%E6%94%BE%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81%E6%96%B9%E6%A1%88(AES+RSA)/)
+[开放接口的安全验证方案(AES+RSA)](https://blog.tianwensk.top/2015/08/21/%E5%BC%80%E6%94%BE%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81%E6%96%B9%E6%A1%88(AES+RSA)/)
 
 
