@@ -1,15 +1,13 @@
 package com.wustrive.aesrsa.util;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class EncryUtil {
 	private static final Logger log = Logger.getLogger(EncryUtil.class);
@@ -19,7 +17,7 @@ public class EncryUtil {
 	public static String handleRSA(TreeMap<String, Object> map,
 			String privateKey) {
 		StringBuffer sbuffer = new StringBuffer();
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
+		for (Entry<String, Object> entry : map.entrySet()) {
 			sbuffer.append(entry.getValue());
 		}
 		String signTemp = sbuffer.toString();
@@ -33,7 +31,7 @@ public class EncryUtil {
 
 	/**
 	 * 返回的结果进行验签
-	 * 
+	 *
 	 * @param data
 	 *            业务数据密文
 	 * @param encrypt_key
@@ -61,7 +59,7 @@ public class EncryUtil {
 
 		/** 2.用aeskey解开data。取得data明文 */
 		String realData = ConvertUtils.hexStringToString(AES.decryptFromBase64(data, AESKey));
-		
+
 		TreeMap<String, String> map = JSON.parseObject(realData,
 				new TypeReference<TreeMap<String, String>>() {});
 
@@ -80,7 +78,7 @@ public class EncryUtil {
 			}
 			signData.append(entry.getValue() == null ? "" : entry.getValue());
 		}
-		
+
 		/** 5. result为true时表明验签通过 */
 		boolean result = RSA.checkSign(signData.toString(), sign,
 				clientPublicKey);
@@ -93,7 +91,7 @@ public class EncryUtil {
 	 */
 	public static String handleHmac(TreeMap<String, String> map, String hmacKey) {
 		StringBuffer sbuffer = new StringBuffer();
-		for (Map.Entry<String, String> entry : map.entrySet()) {
+		for (Entry<String, String> entry : map.entrySet()) {
 			sbuffer.append(entry.getValue());
 		}
 		String hmacTemp = sbuffer.toString();

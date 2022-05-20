@@ -23,24 +23,17 @@ package com.wustrive.aesrsa.util;
 
  --------------------------------------------**********--------------------------------------------
  */
+
+import org.apache.log4j.Logger;
+
+import javax.crypto.Cipher;
 import java.math.BigInteger;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.Signature;
+import java.security.*;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.crypto.Cipher;
-
-import org.apache.log4j.Logger;
 
 public class RSA {
 	private static final Logger log = Logger.getLogger(RSA.class);
@@ -174,7 +167,7 @@ public class RSA {
 	        PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
 
 		
-			java.security.Signature signature = java.security.Signature
+			Signature signature = Signature
 			.getInstance("SHA256WithRSA");
 		
 			signature.initVerify(pubKey);
